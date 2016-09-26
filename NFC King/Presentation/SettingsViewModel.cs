@@ -28,8 +28,8 @@ namespace NFC_King.Presentation
         {
             this.Brushes = AccentColors.Windows10.Select(c => new SolidColorBrush(c)).ToImmutableList();
             this.Themes = ImmutableList.Create(
-                new DisplayableTheme("Dark", ApplicationTheme.Dark),
-                new DisplayableTheme("Light", ApplicationTheme.Light));
+                new DisplayableTheme("Escuro", ApplicationTheme.Dark),
+                new DisplayableTheme("Claro", ApplicationTheme.Light));
 
             // ensure viewmodel state reflects actual appearance
             var manager = AppearanceManager.GetForCurrentView();

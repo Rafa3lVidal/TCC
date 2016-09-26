@@ -42,7 +42,7 @@
                     <!-- pane header -->
                     <StackPanel x:Name="PaneHeader" Orientation="Horizontal">
                         <Button Content="&#xE700;" Command="{x:Bind ViewModel.ToggleSplitViewPaneCommand}" Style="{StaticResource IconButtonStyle}"/>
-                        <TextBlock Text="SPLITVIEW TEMPLATE" Style="{StaticResource PageHeaderTitleTextBlockStyle}" />
+                        <TextBlock Text="NFC King" Style="{StaticResource PageHeaderTitleTextBlockStyle}" />
                     </StackPanel>
 
                     <!-- top menu-->
