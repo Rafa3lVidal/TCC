@@ -22,7 +22,7 @@
                 <ToggleSwitch Header="Usar a cor de destaque do Windows"
                               IsOn="{x:Bind ViewModel.UseSystemAccentColor, Mode=TwoWay}" />
 
-                <GridView Header="Choose your accent color" 
+                <GridView Header="Escolha a sua cor de destaque personalizada" 
                           ItemsSource="{x:Bind ViewModel.Brushes, Mode=OneTime}"
                           SelectedItem="{x:Bind ViewModel.SelectedBrush, Mode=TwoWay, Converter={StaticResource SolidColorBrushToObjectConverter}}"
                           Visibility="{x:Bind ViewModel.UseSystemAccentColor, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}"
@@ -38,6 +38,7 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
+                <Button x:Name="BtnTutorial" Height="42" Width="140" Content="Rever Tutorial" Click="BtnTutorial_Click" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

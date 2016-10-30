@@ -16,17 +16,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using NdefLibrary.Ndef;
 using NdefLibraryUwp.Ndef;
+using Windows.Foundation.Metadata;
 
-
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace NFC_King.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class Email : Page
+    
+    public sealed partial class Map : Page
     {
         private ProximityDevice _device;
         private long _subscriptionIdNdef;
@@ -35,9 +31,10 @@ namespace NFC_King.Pages
         private readonly ResourceLoader _loader = new ResourceLoader();
 
 
-        public Email()
+        public Map()
         {
             InitializeComponent();
+           
 
 
             //SetStatusOutput(string.Format(_loader.GetString("FirstStatus"), _subscriptionIdNdef));
@@ -51,20 +48,54 @@ namespace NFC_King.Pages
             UpdateUiForNfcStatusAsync();
         }
         public Type DestinationPage { get; set; }
-        
-      
-        private void DispositivoDesconectado(ProximityDevice sender)
+
+
+        private void BtnInitNfc_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-            TxtStatus.Text = "Dispositivo Desconectado";
+            // Initialize NFC
+            _device = ProximityDevice.GetDefault();
+            // Subscribe for arrived / departed events
+            if (_device != null)
+            {
+                _device.DeviceArrived += NfcDeviceArrived;
+                _device.DeviceDeparted += NfcDeviceDeparted;
+            }
+            // Update status text for UI
+            SetStatusOutput(_loader.GetString(_device != null ? "StatusInitialized" : "StatusInitFailed"));
+            // Update enabled / disabled state of buttons in the User Interface
+            UpdateUiForNfcStatusAsync();
         }
 
-        private void DispositivoConectado(ProximityDevice sender)
+        #region Device Arrived / Departed
+        private void NfcDeviceDeparted(ProximityDevice sender)
         {
-            TxtStatus.Text = "Dispositivo Conectado";
+            TxtStatus.Text = "Dispositivo desconectado";
+            SetStatusOutput(_loader.GetString("DeviceDeparted"));
+            SetStatusImage(null);
         }
-    
+
+        private void NfcDeviceArrived(ProximityDevice sender)
+        {
+            TxtStatus.Text = "Dispositivo conectado";
+            SetStatusOutput(_loader.GetString("DeviceArrived"));
+        }
+        #endregion
+
+        #region Subscribe for tags
         // ----------------------------------------------------------------------------------------------------
- 
+        private void BtnSubscribeNdef_Click(object sender, RoutedEventArgs routedEventArgs)
+        {
+            // Only subscribe for messages if no NDEF subscription is already active
+            if (_subscriptionIdNdef != 0) return;
+            // Ask the proximity device to inform us about any kind of NDEF message received from
+            // another device or tag.
+            // Store the subscription ID so that we can cancel it later.
+            _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
+            // Update status text for UI
+            SetStatusOutput(string.Format(_loader.GetString("StatusSubscribed"), _subscriptionIdNdef));
+            // Update enabled / disabled state of buttons in the User Interface
+            UpdateUiForNfcStatusAsync();
+        }
 
         private async void MessageReceivedHandler(ProximityDevice sender, ProximityMessage message)
         {
@@ -79,7 +110,7 @@ namespace NFC_King.Pages
             }
             catch (NdefException e)
             {
-               
+                SetStatusOutput(string.Format(_loader.GetString("InvalidNdef"), e.Message));
                 return;
             }
 
@@ -90,17 +121,17 @@ namespace NFC_King.Pages
             try
             {
                 // Clear bitmap if the last tag contained an image
-                
+                SetStatusImage(null);
 
                 // Parse the contents of the tag
                 await ParseTagContents(ndefMessage, tagContents);
 
                 // Update status text for UI
-                
+                SetStatusOutput(string.Format(_loader.GetString("StatusTagParsed"), tagContents));
             }
             catch (Exception ex)
             {
-               
+                SetStatusOutput(string.Format(_loader.GetString("StatusNfcParsingError"), ex.Message));
             }
 
         }
@@ -179,8 +210,8 @@ namespace NFC_King.Pages
                     {
                         if (contact.Emails.Any() || contact.Phones.Any())
                         {
-                            
-                            
+                            //var rect = GetElementRect(StatusOutput);
+                            //ContactManager.ShowContactCard(contact, rect, Placement.Below);
                         }
                         else
                         {
@@ -216,7 +247,7 @@ namespace NFC_King.Pages
                     // Convert and extract Image record info
                     var imgRecord = new NdefMimeImageRecord(record);
                     tagContents.Append("-> MIME / Image record" + Environment.NewLine);
-                   
+                    _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => SetStatusImage(await imgRecord.GetImageAsBitmap()));
 
                 }
                 else
@@ -233,66 +264,124 @@ namespace NFC_King.Pages
             var point = elementTransform.TransformPoint(new Point());
             return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
         }
-       
+        #endregion
 
         #region NFC Publishing
         // ----------------------------------------------------------------------------------------------------
-        
 
-        private void BtnGravaURI_Click(object sender, RoutedEventArgs e)
+        private void BtnWriteLaunchApp_Click(object sender, RoutedEventArgs e)
         {
+            // Create a new LaunchApp record to launch this app
+            // The app will print the arguments when it is launched (see MainPage.OnNavigatedTo() method)
+            var record = new NdefLaunchAppRecord { Arguments = "Hello World" };
 
-            // Inicializa o Dispositivo
-            _device = ProximityDevice.GetDefault();
-            // Subscribe for arrived / departed events
-            if (_device != null)
-            {
-                _device.DeviceArrived += DispositivoConectado;
-                _device.DeviceDeparted += DispositivoDesconectado;
-                TxtStatus.Text = "Aproxime a tag";
-            }
-         
+            // WindowsPhone is the pre-defined platform ID for WP8.
+            // You can get the application ID from the WMAppManifest.xml file
+            //record.AddPlatformAppId("WindowsPhone", "{544ec154-b521-4d73-9405-963830adb213}");
 
-            // Update status text for UI
+            // The app platform for a Windows 8 computer is Windows. 
+            // The format of the proximity app Id is <package family name>!<app Id>. 
+            // You can get the package family name from the Windows.ApplicationModel.Package.Current.Id.FamilyName property. 
+            // You must copy the app Id value from the Id attribute of the Application element in the 
+            // package manifest for your app.
 
-            // Update enabled / disabled state of buttons in the User Interface
-            UpdateUiForNfcStatusAsync();
+            var familyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
+            //var appId = Windows.ApplicationModel.Store.CurrentApp.AppId;    // Crashes when app is not installed from the app store!
+            var appId = "8bf48432-f9c8-48cd-a014-c44d868347dc";
+            // Issue on Windows 10: http://stackoverflow.com/questions/34221812/how-to-launch-my-app-via-nfc-tag
+            // Issue on Windows 10: https://social.msdn.microsoft.com/Forums/sqlserver/en-US/c9653f06-0d48-498f-9b3e-335435780fd4/cw81windows-81-app-license-error-0x803f6107?forum=wpdevelop
+            record.AddPlatformAppId("Windows", "{" + familyName + "!" + appId + "}");
+            record.AddPlatformAppId("WindowsPhone", appId);
 
-            // Only subscribe for messages if no NDEF subscription is already active
-            if (_subscriptionIdNdef != 0) return;
-            TxtStatus.Text = "Dispositivo Suportado";
-            // Ask the proximity device to inform us about any kind of NDEF message received from
-            // another device or tag.
-            // Store the subscription ID so that we can cancel it later.
-            _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
-            // Update status text for UI
-           
-            // Update enabled / disabled state of buttons in the User Interface
-            UpdateUiForNfcStatusAsync();
-            // Stop publishing the message
-            StopPublishingMessage(false);
-            // Update status text for UI
-           
-
-            string email = TxtBoxEndEmail.Text;
-            string assunto = TxtBoxAssuntoEmail.Text;
-            string mensagem = TxtBoxMsgEmail.Text;
-
-            // Create a new mailto record, set the relevant properties for the email
-            var record = new NdefMailtoRecord
-            {
-                Address = email,
-                Subject = assunto,
-                Body = mensagem
-            };
             // Publish the record using the proximity device
             PublishRecord(record, true);
-
-
         }
 
-  
-    
+
+
+
+
+
+
+
+        private async void BtnRecord_Click(object sender, RoutedEventArgs e)
+        {
+            if (TxtBoxAddress.Text == "")
+            {
+
+                campovazio();
+
+            }
+            else
+            {
+
+                // Initialize NFC
+                _device = ProximityDevice.GetDefault();
+                // Subscribe for arrived / departed events
+                if (_device != null)
+                {
+                    _device.DeviceArrived += NfcDeviceArrived;
+                    _device.DeviceDeparted += NfcDeviceDeparted;
+                }
+                // Update status text for UI
+                SetStatusOutput(_loader.GetString(_device != null ? "StatusInitialized" : "StatusInitFailed"));
+                // Update enabled / disabled state of buttons in the User Interface
+                UpdateUiForNfcStatusAsync();
+
+                // Only subscribe for messages if no NDEF subscription is already active
+                if (_subscriptionIdNdef != 0) return;
+                // Ask the proximity device to inform us about any kind of NDEF message received from
+                // another device or tag.
+                // Store the subscription ID so that we can cancel it later.
+                _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
+                // Update status text for UI
+                SetStatusOutput(string.Format(_loader.GetString("StatusSubscribed"), _subscriptionIdNdef));
+                // Update enabled / disabled state of buttons in the User Interface
+                UpdateUiForNfcStatusAsync();
+                // Stop publishing the message
+                StopPublishingMessage(false);
+                // Update status text for UI
+                SetStatusOutput(_loader.GetString("StatusMessageWritten"));
+
+                // Create a URI record
+                var record = new NdefUriRecord { Uri = "bingmaps:q=" + TxtBoxAddress.Text };
+                //var dialog = new MessageDialog(TxtBoxAddress.Text);
+                //await dialog.ShowAsync();
+                // Publish the record using the proximity device
+                PublishRecord(record, false);
+                sucesso();
+                StopPublishingMessage(true);
+                StopSubscription(true);
+                
+
+            }
+        }
+        public async void campovazio()
+        {
+            MessageDialog showDialog = new MessageDialog("Endereço vazio. Preencha o campo do endereço e tente novamente.");
+
+            showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
+            showDialog.DefaultCommandIndex = 0;
+            var result = await showDialog.ShowAsync();
+        }
+        public void aproximatag()
+        {
+            MessageDialog showDialog = new MessageDialog("Aproxime a tag");
+
+            showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
+            showDialog.DefaultCommandIndex = 0;
+            var result = showDialog.ShowAsync();
+        }
+        public void sucesso()
+        {
+            MessageDialog showDialog = new MessageDialog("Sucesso");
+            showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
+            showDialog.DefaultCommandIndex = 0;
+
+            var result = showDialog.ShowAsync();
+        }
+
+
 
         private void TagLockedHandler(ProximityDevice sender, long messageid)
         {
@@ -314,13 +403,13 @@ namespace NFC_King.Pages
                 // Save the publication ID so that we can cancel publication later
                 _publishingMessageId = _device.PublishBinaryMessage((writeToTag ? "NDEF:WriteTag" : "NDEF"), msgArray.AsBuffer(), MessageWrittenHandler);
                 // Update status text for UI
-                TxtStatus.Text = "Aproxime a tag";
+                SetStatusOutput(string.Format(_loader.GetString(writeToTag ? "StatusWriteToTag" : "StatusWriteToDevice"), msgArray.Length, _publishingMessageId));
                 // Update enabled / disabled state of buttons in the User Interface
                 UpdateUiForNfcStatusAsync();
             }
             catch (Exception e)
             {
-               
+                SetStatusOutput(string.Format(_loader.GetString("StatusPublicationError"), e.Message));
             }
         }
 
@@ -329,13 +418,18 @@ namespace NFC_King.Pages
             // Stop publishing the message
             StopPublishingMessage(false);
             // Update status text for UI
-            TxtStatus.Text = "Sucesso!";
+            SetStatusOutput(_loader.GetString("StatusMessageWritten"));
         }
         #endregion
 
         #region Managing Subscriptions
-      
-        private void ParaGravacao(bool writeToStatusOutput)
+        private void BtnStopSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            // Stop NDEF subscription and print status update to the UI
+            StopSubscription(true);
+        }
+
+        private async void StopSubscription(bool writeToStatusOutput)
         {
             if (_subscriptionIdNdef != 0 && _device != null)
             {
@@ -345,7 +439,7 @@ namespace NFC_King.Pages
                 // Update enabled / disabled state of buttons in the User Interface
                 UpdateUiForNfcStatusAsync();
                 // Update status text for UI - only if activated
-                
+                if (writeToStatusOutput) SetStatusOutput(_loader.GetString("StatusSubscriptionStopped"));
             }
         }
 
@@ -364,15 +458,36 @@ namespace NFC_King.Pages
                 // Update enabled / disabled state of buttons in the User Interface
                 UpdateUiForNfcStatusAsync();
                 // Update status text for UI - only if activated
-               
+                if (writeToStatusOutput) SetStatusOutput(_loader.GetString("StatusPublicationStopped"));
             }
         }
         #endregion
 
         #region UI Management
 
+        private void SetStatusOutput(string newStatus)
+        {
+            // Update the status output UI element in the UI thread
+            // (some of the callbacks are in a different thread that wouldn't be allowed
+            // to modify the UI thread)
+            //_dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { if (StatusOutput != null) StatusOutput.Text = newStatus; });
+        }
 
-      
+        private void SetStatusImage(WriteableBitmap newImg)
+        {
+            // Update the status output UI element in the UI thread
+            // (some of the callbacks are in a different thread that wouldn't be allowed
+            // to modify the UI thread)
+            _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                //StatusImg.Source = newImg;
+                if (newImg != null)
+                {
+                    //StatusImg.Width = newImg.PixelWidth;
+                   // StatusImg.Height = newImg.PixelHeight;
+                }
+            });
+        }
 
         private string ConvertTypeNameFormatToString(NdefRecord.TypeNameFormatType tnf)
         {
@@ -417,7 +532,7 @@ namespace NFC_King.Pages
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                
+
             });
         }
         #endregion

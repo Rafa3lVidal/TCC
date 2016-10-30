@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Intense": "0.5.0",
+    "JISoft.FlipViewIndicator": "1.0.0.3",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "NdefLibrary": "3.1.1",
     "NdefLibraryExtension": "3.1.1"

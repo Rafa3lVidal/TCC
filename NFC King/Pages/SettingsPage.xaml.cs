@@ -17,5 +17,10 @@ namespace NFC_King.Pages
         }
 
         public SettingsViewModel ViewModel { get; }
+
+        private void BtnTutorial_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Tutorial));
+        }
     }
 }

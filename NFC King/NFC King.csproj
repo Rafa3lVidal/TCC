@@ -98,11 +98,20 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\Connection.cs" />
-    <Compile Include="Pages\Email.xaml.cs">
-      <DependentUpon>Email.xaml</DependentUpon>
+    <Compile Include="Pages\Mail.xaml.cs">
+      <DependentUpon>Mail.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Tutorial .xaml.cs">
-      <DependentUpon>Tutorial .xaml</DependentUpon>
+    <Compile Include="Pages\Call.xaml.cs">
+      <DependentUpon>Call.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LinkWeb.xaml.cs">
+      <DependentUpon>LinkWeb.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NavigationStructure.xaml.cs">
+      <DependentUpon>NavigationStructure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Tutorial.xaml.cs">
+      <DependentUpon>Tutorial.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
@@ -111,8 +120,8 @@
     <Compile Include="Pages\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Page2.xaml.cs">
-      <DependentUpon>Page2.xaml</DependentUpon>
+    <Compile Include="Pages\Map.xaml.cs">
+      <DependentUpon>Map.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Page3.xaml.cs">
       <DependentUpon>Page3.xaml</DependentUpon>
@@ -134,6 +143,8 @@
     <None Include="NFC King_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\1.jpg" />
+    <Content Include="Assets\2.jpg" />
     <Content Include="Assets\NewStoreLogo.scale-100.png" />
     <Content Include="Assets\NewStoreLogo.scale-125.png" />
     <Content Include="Assets\NewStoreLogo.scale-150.png" />
@@ -189,11 +200,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Pages\Email.xaml">
+    <Page Include="Pages\Mail.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Tutorial .xaml">
+    <Page Include="Pages\Call.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\LinkWeb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NavigationStructure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Tutorial.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -205,7 +228,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Page2.xaml">
+    <Page Include="Pages\Map.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

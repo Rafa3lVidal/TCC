@@ -12,5 +12,15 @@ namespace NFC_King.Pages
         {
             this.InitializeComponent();
         }
+
+        private void BtnSms_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            //this.Frame.Navigate(typeof(Email));
+        }
+
+        private void BtnLigacao_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            //this.Frame.Navigate(typeof(Call));
+        }
     }
 }
