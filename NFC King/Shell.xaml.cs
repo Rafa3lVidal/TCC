@@ -15,14 +15,17 @@ namespace NFC_King
 
             var vm = new ShellViewModel();
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Início", PageType = typeof(Tutorial) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Mapa", PageType = typeof(Map) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Comunicação", PageType = typeof(Page1) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Facilidades", PageType = typeof(Page3) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Link Web", PageType = typeof(LinkWeb) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Aplicativos", PageType = typeof(Aplicativo) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Chamadas", PageType = typeof(Call) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Email", PageType = typeof(Mail) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Ligação", PageType = typeof(Call) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Atalho Configs", PageType = typeof(Map) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Imagem", PageType = typeof(Mail) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Link Web", PageType = typeof(LinkWeb) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Mapa", PageType = typeof(Map) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Sms", PageType = typeof(Sms) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Configurações do Sistema", PageType = typeof(Page1) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Mídias Sociais", PageType = typeof(SocialMedia) });            
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Texto Simples", PageType = typeof(TxtSimple) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Avançado", PageType = typeof(Advanced) });            
 
 
             vm.BottomItems.Add(new NavigationItem { Icon = "", DisplayName = "Configurações", PageType = typeof(SettingsPage) });

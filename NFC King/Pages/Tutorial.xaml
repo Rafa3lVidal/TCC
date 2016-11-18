@@ -9,9 +9,10 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" Margin="0,0,0,540">
+
             <StackPanel x:Name="StackTutorial" Height="641">
-                <TextBlock Text="Tutorial" Style="{StaticResource TitleTextBlockStyle}" DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" />
-                <TextBlock Text="Bem vindo! Obrigado por utilizar o aplicativo. Agora deixe-me mostrar como utilizá-lo:" Style="{StaticResource ParagraphTextBlockStyle}" Height="67" />
+                <TextBlock Text="Tutorial"  DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" />
+                <TextBlock x:Name="TxtTutorial" Text="Bem vindo! Obrigado por utilizar o aplicativo. Agora deixe-me mostrar como utilizá-lo:" TextWrapping="Wrap" Height="67" />
 
 
             </StackPanel>
@@ -66,7 +67,7 @@
                 </Rectangle>
             </FlipViewItem>
         </FlipView>
-                <Button x:Name="BtnRecord" Content="COMEÇAR!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,574,0,10" Height="56"  Background="{ThemeResource SystemControlHighlightAccentBrush}" />
+        <Button x:Name="BtnRecord" Content="COMEÇAR!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,574,0,10" Height="56"  Background="{ThemeResource SystemControlHighlightAccentBrush}" />
 
     </Grid>
 </Page>

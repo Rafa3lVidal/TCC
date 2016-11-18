@@ -98,6 +98,21 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\Connection.cs" />
+    <Compile Include="Pages\Advanced.xaml.cs">
+      <DependentUpon>Advanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Aplicativo.xaml.cs">
+      <DependentUpon>Aplicativo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SocialMedia.xaml.cs">
+      <DependentUpon>SocialMedia.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TxtSimple.xaml.cs">
+      <DependentUpon>TxtSimple.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Sms.xaml.cs">
+      <DependentUpon>Sms.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Mail.xaml.cs">
       <DependentUpon>Mail.xaml</DependentUpon>
     </Compile>
@@ -200,6 +215,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\Advanced.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Aplicativo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SocialMedia.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TxtSimple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Sms.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Mail.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
