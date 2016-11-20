@@ -11,7 +11,7 @@
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}">
             <StackPanel>
                 <TextBlock x:Name="TtxtInstructions" TextWrapping="Wrap" Text="Digite uma url de atalho para algum link/site. Esse link será aberto no navegador do dispositivo. Ex: Quero adicionar um atalho para o site da minha empresa, então digite &quot;www.meusite.com.br&quot;, aproxime a tag e clique em gravar." Margin="0,20,0,0"/>
-                <TextBox x:Name="TxtBoxURL" TextWrapping="Wrap" Text="" Margin="0,10,0,0" PlaceholderText="Digite a url..."/>
+                <TextBox x:Name="TxtBoxURL" TextWrapping="Wrap" Text="" Margin="0,10,0,0" PlaceholderText="Digite a url..." InputScope="Url"/>
                 <TextBlock x:Name="TxtStatus" TextWrapping="Wrap" Text="Aproxime a tag" Margin="0,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource SystemControlHighlightAccentBrush}"/>
                 <Button x:Name="BtnRecord" Content="Gravar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" Height="56"  Background="{ThemeResource SystemControlHighlightAccentBrush}" Click="BtnRecord_Click"/>
             </StackPanel>

@@ -14,8 +14,8 @@ namespace NFC_King.Pages
             // Create a new flip view, add content, 
             // and add a SelectionChanged event handler.
             FlipView flipViewTutorial = new FlipView();
-            flipViewTutorial.Items.Add("Item 1");
-            flipViewTutorial.Items.Add("Item 2");
+            //flipViewTutorial.Items.Add("Item 1");
+            //flipViewTutorial.Items.Add("Item 2");
 
             // Add the flip view to a parent container in the visual tree.
             StackTutorial.Children.Add(flipViewTutorial);

@@ -22,7 +22,7 @@ using Windows.Foundation.Metadata;
 namespace NFC_King.Pages
 {
     
-    public sealed partial class Sms : Page
+    public sealed partial class Imagem : Page
     {
         private ProximityDevice _device;
         private long _subscriptionIdNdef;
@@ -31,7 +31,7 @@ namespace NFC_King.Pages
         private readonly ResourceLoader _loader = new ResourceLoader();
 
 
-        public Sms()
+        public Imagem()
         {
             InitializeComponent();
            
@@ -306,72 +306,78 @@ namespace NFC_King.Pages
 
         private async void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
-            if (TxtBoxReceiver.Text == "")
+
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker
             {
-                MessageDialog showDialog = new MessageDialog("Destinatário Vazio. Preencha o campo do destinatário e tente novamente.");
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary,
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail
+            };
 
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
+            // Filter to include a sample subset of file types.
+            openPicker.FileTypeFilter.Clear();
+            openPicker.FileTypeFilter.Add(".bmp");
+            openPicker.FileTypeFilter.Add(".png");
+            openPicker.FileTypeFilter.Add(".gif");
+            openPicker.FileTypeFilter.Add(".jpeg");
+            openPicker.FileTypeFilter.Add(".jpg");
 
+            // Open the file picker.
+            var file = await openPicker.PickSingleFileAsync();
+
+            // Initialize NFC
+            _device = ProximityDevice.GetDefault();
+            // Subscribe for arrived / departed events
+            if (_device != null)
+            {
+                _device.DeviceArrived += NfcDeviceArrived;
+                _device.DeviceDeparted += NfcDeviceDeparted;
             }
-            
-            if (TxtBoxMessage.Text == "")
+            // Update status text for UI
+            SetStatusOutput(_loader.GetString(_device != null ? "StatusInitialized" : "StatusInitFailed"));
+            // Update enabled / disabled state of buttons in the User Interface
+            UpdateUiForNfcStatusAsync();
+
+            // Only subscribe for messages if no NDEF subscription is already active
+            if (_subscriptionIdNdef != 0) return;
+            // Ask the proximity device to inform us about any kind of NDEF message received from
+            // another device or tag.
+            // Store the subscription ID so that we can cancel it later.
+            _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
+            // Update status text for UI
+            SetStatusOutput(string.Format(_loader.GetString("StatusSubscribed"), _subscriptionIdNdef));
+            // Update enabled / disabled state of buttons in the User Interface
+            UpdateUiForNfcStatusAsync();
+            // Stop publishing the message
+            StopPublishingMessage(false);
+            // Update status text for UI
+            SetStatusOutput(_loader.GetString("StatusMessageWritten"));
+
+
+
+
+
+            // file is null if user cancels the file picker.
+            if (file != null)
             {
-                MessageDialog showDialog = new MessageDialog("Mensagem vazia. Preencha o campo de mensagem e tente novamente.");
-
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
-
-            }
-            else
-            {
-
-                // Initialize NFC
-                _device = ProximityDevice.GetDefault();
-                // Subscribe for arrived / departed events
-                if (_device != null)
-                {
-                    _device.DeviceArrived += NfcDeviceArrived;
-                    _device.DeviceDeparted += NfcDeviceDeparted;
-                }
-                // Update status text for UI
-                SetStatusOutput(_loader.GetString(_device != null ? "StatusInitialized" : "StatusInitFailed"));
-                // Update enabled / disabled state of buttons in the User Interface
-                UpdateUiForNfcStatusAsync();
-
-                // Only subscribe for messages if no NDEF subscription is already active
-                if (_subscriptionIdNdef != 0) return;
-                // Ask the proximity device to inform us about any kind of NDEF message received from
-                // another device or tag.
-                // Store the subscription ID so that we can cancel it later.
-                _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
-                // Update status text for UI
-                SetStatusOutput(string.Format(_loader.GetString("StatusSubscribed"), _subscriptionIdNdef));
-                // Update enabled / disabled state of buttons in the User Interface
-                UpdateUiForNfcStatusAsync();
-                // Stop publishing the message
-                StopPublishingMessage(false);
-                // Update status text for UI
-                SetStatusOutput(_loader.GetString("StatusMessageWritten"));
-                
-
-                // Create a new mailto record, set the relevant properties for the email
-                var record = new NdefSmsRecord { SmsNumber = TxtBoxReceiver.Text, SmsBody = TxtBoxMessage.Text };
+                var record = await NdefMimeImageRecord.CreateFromFile(file);
+                // Publish the record using the proximity device
                 PublishRecord(record, true);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);
-                
-
+            }
+            else
+            {
+                campovazio();
             }
         }
+                                              
+
+            
+        
         public async void campovazio()
         {
-            MessageDialog showDialog = new MessageDialog("Endereço vazio. Preencha o campo do endereço e tente novamente.");
+            MessageDialog showDialog = new MessageDialog("Imagem não selecionada. Selecione uma imagem e tente novamente.");
 
             showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
             showDialog.DefaultCommandIndex = 0;
@@ -548,8 +554,9 @@ namespace NFC_King.Pages
 
             });
         }
+
         #endregion
 
-      
+       
     }
 }

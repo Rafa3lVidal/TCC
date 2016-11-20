@@ -104,6 +104,12 @@
     <Compile Include="Pages\Aplicativo.xaml.cs">
       <DependentUpon>Aplicativo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Imagem.xaml.cs">
+      <DependentUpon>Imagem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Shortcuts.xaml.cs">
+      <DependentUpon>Shortcuts.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SocialMedia.xaml.cs">
       <DependentUpon>SocialMedia.xaml</DependentUpon>
     </Compile>
@@ -197,6 +203,11 @@
     <Content Include="Assets\Square71x71Logo.scale-200.png" />
     <Content Include="Assets\Square71x71Logo.scale-400.png" />
     <Content Include="Assets\tile.png" />
+    <Content Include="Assets\tuto1.png" />
+    <Content Include="Assets\tuto2.png" />
+    <Content Include="Assets\tuto3.png" />
+    <Content Include="Assets\tuto4.png" />
+    <Content Include="Assets\tuto5.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
@@ -220,6 +231,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Aplicativo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Imagem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Shortcuts.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

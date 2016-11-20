@@ -317,16 +317,7 @@ namespace NFC_King.Pages
 
             }
             
-            if (TxtBoxMessage.Text == "")
-            {
-                MessageDialog showDialog = new MessageDialog("Mensagem vazia. Preencha o campo de mensagem e tente novamente.");
-
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
-
-            }
+            
             else
             {
 
@@ -360,8 +351,8 @@ namespace NFC_King.Pages
                 
 
                 // Create a new mailto record, set the relevant properties for the email
-                var record = new NdefSmsRecord { SmsNumber = TxtBoxReceiver.Text, SmsBody = TxtBoxMessage.Text };
-                PublishRecord(record, true);
+                //var record = new NdefSmsRecord { SmsNumber = TxtBoxReceiver.Text, SmsBody = TxtBoxMessage.Text };
+                //PublishRecord(record, true);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);

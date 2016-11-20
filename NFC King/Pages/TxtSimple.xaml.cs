@@ -22,7 +22,7 @@ using Windows.Foundation.Metadata;
 namespace NFC_King.Pages
 {
     
-    public sealed partial class Sms : Page
+    public sealed partial class TxtSimple : Page
     {
         private ProximityDevice _device;
         private long _subscriptionIdNdef;
@@ -31,7 +31,7 @@ namespace NFC_King.Pages
         private readonly ResourceLoader _loader = new ResourceLoader();
 
 
-        public Sms()
+        public TxtSimple()
         {
             InitializeComponent();
            
@@ -306,20 +306,11 @@ namespace NFC_King.Pages
 
         private async void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
-            if (TxtBoxReceiver.Text == "")
-            {
-                MessageDialog showDialog = new MessageDialog("Destinatário Vazio. Preencha o campo do destinatário e tente novamente.");
-
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
-
-            }
+           
             
             if (TxtBoxMessage.Text == "")
             {
-                MessageDialog showDialog = new MessageDialog("Mensagem vazia. Preencha o campo de mensagem e tente novamente.");
+                MessageDialog showDialog = new MessageDialog("Texto vazio. Preencha o campo de texto e tente novamente.");
 
                 showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
                 showDialog.DefaultCommandIndex = 0;
@@ -360,8 +351,8 @@ namespace NFC_King.Pages
                 
 
                 // Create a new mailto record, set the relevant properties for the email
-                var record = new NdefSmsRecord { SmsNumber = TxtBoxReceiver.Text, SmsBody = TxtBoxMessage.Text };
-                PublishRecord(record, true);
+                var record = new NdefTextRecord { Text =  TxtBoxMessage.Text };
+                PublishRecord(record, false);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);

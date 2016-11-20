@@ -18,11 +18,11 @@ namespace NFC_King
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Aplicativos", PageType = typeof(Aplicativo) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Chamadas", PageType = typeof(Call) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Email", PageType = typeof(Mail) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Imagem", PageType = typeof(Mail) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Imagem", PageType = typeof(Imagem) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Link Web", PageType = typeof(LinkWeb) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Mapa", PageType = typeof(Map) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Sms", PageType = typeof(Sms) });
-            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Configurações do Sistema", PageType = typeof(Page1) });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Configurações do Sistema", PageType = typeof(Shortcuts) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Mídias Sociais", PageType = typeof(SocialMedia) });            
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Texto Simples", PageType = typeof(TxtSimple) });
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Avançado", PageType = typeof(Advanced) });            

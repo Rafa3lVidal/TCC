@@ -306,20 +306,11 @@ namespace NFC_King.Pages
 
         private async void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
-            if (TxtBoxReceiver.Text == "")
-            {
-                MessageDialog showDialog = new MessageDialog("Destinatário Vazio. Preencha o campo do destinatário e tente novamente.");
-
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
-
-            }
             
-            if (TxtBoxMessage.Text == "")
+            
+            if (TxtBoxURI.Text == "")
             {
-                MessageDialog showDialog = new MessageDialog("Mensagem vazia. Preencha o campo de mensagem e tente novamente.");
+                MessageDialog showDialog = new MessageDialog("URI vazia. Preencha o campo de URI e tente novamente.");
 
                 showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
                 showDialog.DefaultCommandIndex = 0;
@@ -357,11 +348,11 @@ namespace NFC_King.Pages
                 StopPublishingMessage(false);
                 // Update status text for UI
                 SetStatusOutput(_loader.GetString("StatusMessageWritten"));
-                
+
 
                 // Create a new mailto record, set the relevant properties for the email
-                var record = new NdefSmsRecord { SmsNumber = TxtBoxReceiver.Text, SmsBody = TxtBoxMessage.Text };
-                PublishRecord(record, true);
+                var record = new NdefUriRecord { Uri = TxtBoxURI.Text };
+                PublishRecord(record, false);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);

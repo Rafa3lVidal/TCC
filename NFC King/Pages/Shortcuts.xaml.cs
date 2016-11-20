@@ -22,16 +22,17 @@ using Windows.Foundation.Metadata;
 namespace NFC_King.Pages
 {
     
-    public sealed partial class Sms : Page
+    public sealed partial class Shortcuts : Page
     {
         private ProximityDevice _device;
         private long _subscriptionIdNdef;
         private long _publishingMessageId;
         private readonly CoreDispatcher _dispatcher;
         private readonly ResourceLoader _loader = new ResourceLoader();
+        public int selecao;
 
 
-        public Sms()
+        public Shortcuts()
         {
             InitializeComponent();
            
@@ -306,27 +307,10 @@ namespace NFC_King.Pages
 
         private async void BtnRecord_Click(object sender, RoutedEventArgs e)
         {
-            if (TxtBoxReceiver.Text == "")
+            if (TxtBoxID.Text == "")
             {
-                MessageDialog showDialog = new MessageDialog("Destinatário Vazio. Preencha o campo do destinatário e tente novamente.");
-
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
-
-            }
-            
-            if (TxtBoxMessage.Text == "")
-            {
-                MessageDialog showDialog = new MessageDialog("Mensagem vazia. Preencha o campo de mensagem e tente novamente.");
-
-                showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
-                showDialog.DefaultCommandIndex = 0;
-                var result = await showDialog.ShowAsync();
-                campovazio();
-
-            }
+                 campovazio();
+                            }
             else
             {
 
@@ -357,26 +341,101 @@ namespace NFC_King.Pages
                 StopPublishingMessage(false);
                 // Update status text for UI
                 SetStatusOutput(_loader.GetString("StatusMessageWritten"));
-                
 
-                // Create a new mailto record, set the relevant properties for the email
-                var record = new NdefSmsRecord { SmsNumber = TxtBoxReceiver.Text, SmsBody = TxtBoxMessage.Text };
-                PublishRecord(record, true);
-                sucesso();
-                StopPublishingMessage(true);
-                StopSubscription(true);
+                switch (selecao)
+                {
+                    case 1:
+                        var record = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.NetworkWifi };
+                        PublishRecord(record, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 2:
+
+                        var record2 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.SettingsHome };
+                        PublishRecord(record2, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 3:
+                        var record3 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.SystemDisplay };
+                        PublishRecord(record3, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 4:
+                        var record4 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.SystemBatterySaver };
+                        PublishRecord(record4, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 5:
+                        var record5 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.SystemPower };
+                        PublishRecord(record5, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 6:
+                        var record6 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.NetworkAirplaneMode };
+                        PublishRecord(record6, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 7:
+                        var record7 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.PrivacyContacts };
+                        PublishRecord(record7, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 8:
+                        var record8 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.EaseOfAccessHighContrast };
+                        PublishRecord(record8, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 9:
+                        var record9 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.Personalization };
+                        PublishRecord(record9, true);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+                    case 10:
+                        var record10 = new NdefWindowsSettingsRecord { SettingsApp = NdefWindowsSettingsRecord.NfcSettingsApp.EaseOfAccessMagnifier };
+                        PublishRecord(record10, false);
+                        sucesso();
+                        StopPublishingMessage(true);
+                        StopSubscription(true);
+                        break;
+
+                    default:
+                        break;
+                }
+                
+                
                 
 
             }
         }
         public async void campovazio()
         {
-            MessageDialog showDialog = new MessageDialog("Endereço vazio. Preencha o campo do endereço e tente novamente.");
+            MessageDialog showDialog = new MessageDialog("Parâmetro vazio. Preencha o campo e tente novamente.");
 
             showDialog.Commands.Add(new UICommand("Ok") { Id = 0 });
             showDialog.DefaultCommandIndex = 0;
             var result = await showDialog.ShowAsync();
         }
+
+
+
         public void aproximatag()
         {
             MessageDialog showDialog = new MessageDialog("Aproxime a tag");
@@ -394,7 +453,67 @@ namespace NFC_King.Pages
             var result = showDialog.ShowAsync();
         }
 
+        private void BtnFuncWifi_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 1;
+            TxtBoxID.Text = "ms-wifi";
+        }
 
+        private void BtnFuncConfigs_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 2;
+            TxtBoxID.Text = "ms-settings";
+        }
+
+        private void BtnFuncTela_Click(object sender, RoutedEventArgs e)
+        {
+
+            selecao = 3;
+            TxtBoxID.Text = "ms-settings:screenrotation";
+        }
+
+        private void BtnFuncBateria_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 4;
+            TxtBoxID.Text = "ms-settings:screenrotation";
+        }
+
+        private void BtnFuncEnergia_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 5;
+            TxtBoxID.Text = "ms-settings:powersleep";
+        }
+
+        private void BtnFuncAviao_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 6;
+            TxtBoxID.Text = "ms-settings:network-airplanemode";
+        }
+
+        private void BtnFuncContatos_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 7;
+            TxtBoxID.Text = "ms-settings:privacy-contacts";
+        }
+
+        private void BtnFuncAC_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 8;
+            TxtBoxID.Text = "ms-settings:easeofaccess-highcontrast";
+        }
+
+        private void BtnFuncPers_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 9;
+            TxtBoxID.Text = "ms-settings:personalization";
+        }
+
+        private void BtnFuncLupa_Click(object sender, RoutedEventArgs e)
+        {
+            selecao = 10;
+            TxtBoxID.Text = "ms-settings:easeofaccess-magnifier";
+
+        }
 
         private void TagLockedHandler(ProximityDevice sender, long messageid)
         {

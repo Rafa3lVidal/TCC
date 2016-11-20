@@ -8,66 +8,65 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" Margin="0,0,0,540">
+        <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" Margin="0,0,0,93">
 
-            <StackPanel x:Name="StackTutorial" Height="641">
-                <TextBlock Text="Tutorial"  DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" />
-                <TextBlock x:Name="TxtTutorial" Text="Bem vindo! Obrigado por utilizar o aplicativo. Agora deixe-me mostrar como utilizá-lo:" TextWrapping="Wrap" Height="67" />
+            <StackPanel x:Name="StackTutorial" >
+                <TextBlock x:Name="TxtTutorial" Text="Bem vindo! Obrigado por utilizar o aplicativo. Agora deixe-me mostrar como utilizá-lo:" TextWrapping="Wrap" Height="67" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
 
 
             </StackPanel>
         </ScrollViewer>
-        <FlipView ScrollViewer.HorizontalScrollMode="Enabled" Height="450" Margin="0,100,0,90" IsSynchronizedWithCurrentItem="False">
+        <StackPanel Margin="0,587,0,0">
+            <Button x:Name="BtnRecord" Content="COMEÇAR!" HorizontalAlignment="Stretch"   Height="54"  Background="{ThemeResource SystemControlHighlightAccentBrush}" VerticalAlignment="Bottom" />
+
+        </StackPanel>
+        <FlipView ScrollViewer.HorizontalScrollMode="Enabled" Margin="0,100,0,93" IsSynchronizedWithCurrentItem="False">
             <FlipViewItem Margin="20" Height="400" Width="200" >
 
-                <Rectangle Width="250" Margin="35,0" HorizontalAlignment="Center">
+                <Rectangle Width="320" Margin="0,-19,0,-17" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <Rectangle.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/1.jpg"/>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/tuto1.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </FlipViewItem>
             <FlipViewItem Margin="20" Height="400" Width="200" >
 
-                <Rectangle Width="250" Margin="35,0">
+                <Rectangle Width="320" Margin="0,-19,0,-17" HorizontalAlignment="Center" >
                     <Rectangle.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/1.jpg"/>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/tuto2.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </FlipViewItem>
             <FlipViewItem Margin="20" Height="400" Width="200" >
 
-                <Rectangle Width="250" Margin="35,0">
+                <Rectangle Width="320" Margin="0,-19,0,-17" HorizontalAlignment="Center">
                     <Rectangle.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/2.jpg"/>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/tuto3.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </FlipViewItem>
             <FlipViewItem Margin="20" Height="400" Width="200" >
 
-                <Rectangle Width="250" Margin="35,0">
+                <Rectangle Width="320" Margin="0,-19,0,-17" HorizontalAlignment="Center">
                     <Rectangle.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/2.jpg"/>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/tuto4.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </FlipViewItem>
             <FlipViewItem Margin="20" Height="400" Width="200" >
 
-                <Rectangle Width="250" Margin="35,0">
+                <Rectangle Width="320" Margin="0,-19,0,-17" HorizontalAlignment="Center">
                     <Rectangle.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/1.jpg"/>
+                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/tuto5.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
+                
             </FlipViewItem>
-            <FlipViewItem Margin="20" Height="400" Width="200" >
 
-                <Rectangle Width="250" Margin="35,0">
-                    <Rectangle.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/2.jpg"/>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </FlipViewItem>
         </FlipView>
-        <Button x:Name="BtnRecord" Content="COMEÇAR!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,574,0,10" Height="56"  Background="{ThemeResource SystemControlHighlightAccentBrush}" />
+
+        
+
 
     </Grid>
 </Page>
