@@ -377,7 +377,7 @@ namespace NFC_King.Pages
                     Subject = assunto,
                     Body = mensagem
                 };
-                PublishRecord(record, false);
+                PublishRecord(record, true);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);

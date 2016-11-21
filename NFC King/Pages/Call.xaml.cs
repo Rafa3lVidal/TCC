@@ -348,7 +348,7 @@ namespace NFC_King.Pages
                 //var dialog = new MessageDialog(TxtBoxAddress.Text);
                 //await dialog.ShowAsync();
                 // Publish the record using the proximity device
-                PublishRecord(record, false);
+                PublishRecord(record, true);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);

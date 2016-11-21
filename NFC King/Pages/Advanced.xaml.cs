@@ -352,7 +352,7 @@ namespace NFC_King.Pages
 
                 // Create a new mailto record, set the relevant properties for the email
                 var record = new NdefUriRecord { Uri = TxtBoxURI.Text };
-                PublishRecord(record, false);
+                PublishRecord(record, true);
                 sucesso();
                 StopPublishingMessage(true);
                 StopSubscription(true);
